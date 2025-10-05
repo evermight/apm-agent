@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.get('/path/:params1', (req, res) => {
-  res.send('Path ' + req.params.param1)
-  apm.setTransactionName('/path/'+req.params.param1)
+  res.send('Path ' + req.params.params1)
+  apm.setTransactionName('/path/'+req.params.params1)
 })
 app.get('/demo', (req, res) => {
   res.send('Welcome Demo')
