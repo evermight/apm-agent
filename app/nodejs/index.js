@@ -29,11 +29,12 @@ app.get('/span/:params1', (req, res) => {
   res.send('Testing Span')
   const timeout = 5000;
   const span = apm.startSpan('Testing a span, will wait ' + timeout + 'ms')
+  //sendMetaData('Span ' + req.params.params1)
   setTimeout(()=>span.end(), timeout);
 })
-app.get('/context/:params1', (req, res) => {
-  res.send('Welcome Demo')
-  apm.setCustomContext({'apm': {'alpha': 'beta computer'}})
+app.get('/metadata/:params1', (req, res) => {
+  res.send('Metadata: ' + req.params.params1)
+  sendMetaData(req.params.params1)
 })
 app.get('/transaction-name/:params1', (req, res) => {
   res.send('Transaction Name: ' + req.params.params1)
@@ -43,3 +44,9 @@ app.get('/transaction-name/:params1', (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
+
+const sendMetaData = msg => {
+  apm.setLabel('MyLabel', msg, false)
+  apm.setUserContext({'id': msg, 'username': msg, 'email': msg + '@' + msg + '.com'})
+  apm.setCustomContext({'MyObject': {'MyCustomContextMessage': msg}})
+}
