@@ -1,0 +1,33 @@
+services:
+  go:
+    image: golang:1.19
+    working_dir: /app
+    volumes:
+      - ./mod:/go/pkg/mod
+      - ./app:/app
+    environment:
+      GOMODCACHE: "/go/pkg/mod"
+    command: >
+      bash -c "if [ -f /go/pkg/mod/done.txt ]; then
+        echo 'Already ran go mod download.  You can delete app/mod/done.txt to try again.';
+        exit 1;
+        fi;
+        go mod download
+        echo 'done' > /go/pkg/mod/done.txt
+      "
+  main: 
+    image: golang:1.19
+    working_dir: /app
+    volumes:
+      - ./mod:/go/pkg/mod
+      - ./app:/app
+    ports:
+      - 3033:3030
+    environment:
+      GOMODCACHE: "/go/pkg/mod"
+    command: >
+      bash -c 'echo "Waiting for go mod download...";
+        while [ ! -f /go/pkg/mod/done.txt ]; do sleep 2; done
+        go run main.go
+        echo "Done"
+      '
