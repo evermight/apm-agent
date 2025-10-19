@@ -2,6 +2,10 @@ from elasticapm.contrib.flask import ElasticAPM
 from flask import Flask
 import elasticapm
 import time
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -9,10 +13,10 @@ app = Flask(__name__)
 # Configure Elastic APM
 app.config['ELASTIC_APM'] = {
     # Allowed characters: a-z, A-Z, 0-9, -, _, and space
-    'SERVICE_NAME': 'python-app-1',
+    'SERVICE_NAME': os.getenv('ELASTIC_APM_SERVICE_NAME'),
     # Use if APM Server requires a secret token
-    'SECRET_TOKEN': 'abcd1234',
-    'SERVER_URL': 'http://192.168.88.26:8200',
+    'SECRET_TOKEN': os.getenv('ELASTIC_APM_SECRET_TOKEN'),
+    'SERVER_URL': os.getenv('ELASTIC_APM_SERVER_URL'),
     # 'VERIFY_SERVER_CERT': True,
     # 'ENVIRONMENT': 'production'
 }

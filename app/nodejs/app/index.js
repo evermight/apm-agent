@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 var apm = require('elastic-apm-node').start({
   // Allowed characters: a-z, A-Z, 0-9, -, _, and space
-  serviceName: 'node-app-1',
+  serviceName: process.env.ELASTIC_APM_SERVICE_NAME,
   // Use if APM Server requires a secret token
-  secretToken: 'abcd1234',
-  serverUrl: 'http://192.168.88.26:8200',
+  secretToken: process.env.ELASTIC_APM_SECRET_TOKEN,
+  serverUrl: process.env.ELASTIC_APM_SERVER_URL,
   //verifyServerCert: true,
-  //environment: 'production'
+  environment: process.env.ELASTIC_APM_ENVIRONMENT
 });
 // vars
 const express = require('express')
