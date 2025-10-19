@@ -1,0 +1,27 @@
+services:
+  npm:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "if [ -f /app/node_modules/done.txt ]; then
+        echo 'Already ran npm install.  You can delete app/node_modules/done.txt to try again.';
+        exit 1;
+        fi;
+        npm install
+        echo 'done' > /app/node_modules/done.txt
+      "
+  main: 
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - 3030:3030
+    command: >
+      sh -c 'echo "Waiting for npm install...";
+        while [ ! -f /app/node_modules/done.txt ]; do sleep 2; done
+        node index.js
+        echo "Done"
+      '

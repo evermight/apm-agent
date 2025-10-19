@@ -3,7 +3,7 @@ var apm = require('elastic-apm-node').start({
   serviceName: 'node-app-1',
   // Use if APM Server requires a secret token
   secretToken: 'abcd1234',
-  serverUrl: 'http://localhost:8200',
+  serverUrl: 'http://192.168.88.26:8200',
   //verifyServerCert: true,
   //environment: 'production'
 });
