@@ -12,7 +12,7 @@ app.config['ELASTIC_APM'] = {
     'SERVICE_NAME': 'python-app-1',
     # Use if APM Server requires a secret token
     'SECRET_TOKEN': 'abcd1234',
-    'SERVER_URL': 'http://localhost:8200',
+    'SERVER_URL': 'http://192.168.88.26:8200',
     # 'VERIFY_SERVER_CERT': True,
     # 'ENVIRONMENT': 'production'
 }

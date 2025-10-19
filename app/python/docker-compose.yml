@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  pip:
+    image: python:3.10-slim
+    working_dir: /app
+    volumes:
+      - ./pip:/usr/local/lib/pip_modules
+      - ./app:/app
+    environment:
+      PYTHONPATH: "/usr/local/lib/pip_modules"
+      PYTHONUNBUFFERED: "1"
+    command: >
+      bash -c "if [ -f /usr/local/lib/pip_modules/done.txt ]; then
+        echo 'Already ran pip install.  You can delete app/pip/done.txt to try again.';
+        exit 1;
+        fi;
+        pip install --no-cache-dir --target=/usr/local/lib/pip_modules -r requirements.txt;
+        echo 'done' > /usr/local/lib/pip_modules/done.txt
+      "
+  main: 
+    image: python:3.10-slim
+    working_dir: /app
+    volumes:
+      - ./pip:/usr/local/lib/pip_modules
+      - ./app:/app
+    ports:
+      - 3031:3030
+    environment:
+      PYTHONPATH: "/usr/local/lib/pip_modules"
+      PYTHONUNBUFFERED: "1"
+    command: >
+      bash -c 'echo "Waiting for pipinstall...";
+        while [ ! -f /usr/local/lib/pip_modules/done.txt ]; do sleep 2; done
+        python main.py
+        echo "Done"
+      '
