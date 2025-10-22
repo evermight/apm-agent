@@ -1,0 +1,13 @@
+apm-server:
+  host: '0.0.0.0:8200'
+  secret_token: 'abcd1234'
+output.elasticsearch:
+  hosts: ['ip.of.logging.server:9200']
+  enabled: true
+  protocol: 'https'
+  username: 'elastic'
+  password: 'the password'
+  ssl.enabled: true
+  ssl.verification_mode: full
+  ssl.certificate_authorities: ['/etc/certs/http_ca.crt']
+logging.level: error
