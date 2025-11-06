@@ -1,6 +1,7 @@
 apm-server:
   host: "127.0.0.1:8200"
-  secret_token: 'abcd1234'
+  auth:
+    secret_token: 'abcd1234'
 output.logstash:
   enabled: true
   hosts: ["ip.of.logging.server:5044"]

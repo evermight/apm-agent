@@ -1,6 +1,7 @@
 apm-server:
   host: '0.0.0.0:8200'
-  secret_token: 'abcd1234'
+  auth:
+    secret_token: 'abcd1234'
 output.elasticsearch:
   hosts: ['ip.of.logging.server:9200']
   enabled: true
